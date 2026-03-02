@@ -1,0 +1,231 @@
+{
+  "name": "Assignment_pipeline",
+  "email_notifications": {
+    "no_alert_for_skipped_runs": false
+  },
+  "webhook_notifications": {},
+  "timeout_seconds": 0,
+  "max_concurrent_runs": 1,
+  "tasks": [
+    {
+      "task_key": "load_data_events",
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "6450b3f7-609c-4700-852d-e77113e2b475",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "load_data_marketing",
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "b7016a3b-4490-4ed7-80ec-e4491ebe93c6",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "load_data_subscriptions",
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "3d3817a8-aef9-4054-8c53-212e5e97c0e9",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "transform_events_silver",
+      "depends_on": [
+        {
+          "task_key": "load_data_events"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "f9f364d4-ae17-4135-b117-6117b1aef8d1",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "DAU",
+      "depends_on": [
+        {
+          "task_key": "transform_events_silver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "c36d45bc-d590-4976-bf5c-586a2aad43dc",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Daily_Revenue_Gross",
+      "depends_on": [
+        {
+          "task_key": "transform_events_silver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "c36d45bc-d590-4976-bf5c-586a2aad43dc",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Daily_Revenue_Net",
+      "depends_on": [
+        {
+          "task_key": "transform_events_silver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "647e2741-ffcc-4281-92fe-4450027d4c2f",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Weekly_Cohort_Retention",
+      "depends_on": [
+        {
+          "task_key": "transform_events_silver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "c79082bb-4e62-4a08-bce0-279b7b8fec15",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "ltv_per_User",
+      "depends_on": [
+        {
+          "task_key": "transform_events_silver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "957d85de-8c8b-4677-ad1b-755a2d6e7772",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "transform_marketing_silver",
+      "depends_on": [
+        {
+          "task_key": "load_data_marketing"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "01288c75-2f1c-4b9a-a401-8440b42bd754",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "CAC_by_Channel",
+      "depends_on": [
+        {
+          "task_key": "transform_marketing_silver"
+        },
+        {
+          "task_key": "transform_events_silver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "2df52439-da2f-4baf-b45f-ad3a169864f5",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "transform_subscriptions_silver",
+      "depends_on": [
+        {
+          "task_key": "load_data_subscriptions"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "547e66b6-545d-4a0d-bffa-ecd95adbd907",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "MRR_Daily",
+      "depends_on": [
+        {
+          "task_key": "transform_subscriptions_silver"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "9c7664ba-cbfe-447c-867e-2e193ded0165",
+        "full_refresh": false
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "ltv_CAC_Ratio",
+      "depends_on": [
+        {
+          "task_key": "CAC_by_Channel"
+        },
+        {
+          "task_key": "transform_marketing_silver"
+        },
+        {
+          "task_key": "ltv_per_User"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "pipeline_task": {
+        "pipeline_id": "207bf642-006d-49f5-b776-1780fc231a3d"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {}
+    }
+  ],
+  "queue": {
+    "enabled": true
+  },
+  "performance_target": "PERFORMANCE_OPTIMIZED"
+}
